@@ -1,0 +1,12 @@
+D:\IF-IDF\IF-IDF\bin\Debug\IF-IDF.exe.config
+D:\IF-IDF\IF-IDF\obj\Debug\IF-IDF.csprojResolveAssemblyReference.cache
+D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.Form1.resources
+D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.Properties.Resources.resources
+D:\IF-IDF\IF-IDF\obj\Debug\IF-IDF.csproj.GenerateResource.Cache
+D:\IF-IDF\IF-IDF\bin\Debug\IF-IDF.exe
+D:\IF-IDF\IF-IDF\bin\Debug\IF-IDF.pdb
+D:\IF-IDF\IF-IDF\obj\Debug\IF-IDF.exe
+D:\IF-IDF\IF-IDF\obj\Debug\IF-IDF.pdb
+D:\IF-IDF\IF-IDF\bin\Debug\StemmersNet.dll
+D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.Indexing.resources
+D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.DicAndPosting.resources
