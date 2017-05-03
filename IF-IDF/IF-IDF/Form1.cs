@@ -177,11 +177,10 @@ namespace IF_IDF
             var dt = new DataTable();
             dt.Columns.Add("Query ID");
             dt.Columns.Add("File Result");
-            dt.Columns.Add("World");
-            dt.Columns.Add("Frequency");
+            dt.Columns.Add("CoSin");
             foreach (var item in result)
             {
-                dt.Rows.Add(txtSearch.Text, item.Key, item.Value.Item1, item.Value.Item2);
+                dt.Rows.Add(txtSearch.Text, item.Key, item.Value);
             }
             dataGridView2.DataSource = dt;
         }
@@ -191,6 +190,8 @@ namespace IF_IDF
             var dt = new DataTable();
             dt.Columns.Add("ID Query");
             dt.Columns.Add("File Result");
+            dt.Columns.Add("CoSin");
+
             var dr = this.openFileDialog3.ShowDialog();
             if (dr == DialogResult.OK)
             {
@@ -210,7 +211,7 @@ namespace IF_IDF
                         var result = search.FileResult();
                         foreach (var item in result)
                         {
-                            dt.Rows.Add(query.IdQuery, item.Key);
+                            dt.Rows.Add(query.IdQuery, item.Key,item.Value);
                         }
                     }
                 }

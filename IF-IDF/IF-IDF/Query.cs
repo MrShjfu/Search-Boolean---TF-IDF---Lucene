@@ -12,8 +12,8 @@ namespace IF_IDF
         public string IdQuery;
         public string Title;
         public string Rank;
-
-        public IEnumerable<string> Lst;
+        // tu , tf
+        public List<Tuple<string,double>> Lstq;
         public Query(string s, int a)
         {
             var b = s.Split(new string[] { " ", "\t" }, StringSplitOptions.None);
@@ -31,6 +31,7 @@ namespace IF_IDF
         }
         public Query(string s,Stopword sw, int e)
         {
+            Lstq = new List<Tuple<string, double>>();
             var b = s.Split(new string[] { "\t", "\t" }, StringSplitOptions.None);
             if (b.Length != 2) return;
             IdQuery = b[0];
@@ -39,6 +40,7 @@ namespace IF_IDF
             const string regex = @"[A-Za-z\-]+";
             IStemmer stemmer = new EnglishStemmer();
             var valueEnumerable = Regex.Matches(Title = b[1], regex);
+            IEnumerable<string> Lst=null;
             try
             {
                 Lst = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().Except(sw.Lst.ToArray()).OrderBy(a => a);
@@ -48,6 +50,14 @@ namespace IF_IDF
             {
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
             }
+            Dictionary<string, int> counts = Lst.GroupBy(x => x)
+                .ToDictionary(g => g.Key,
+                    g => g.Count());
+            var ls = Lst.Distinct().ToList();
+            foreach (var item in counts)
+            {
+                Lstq.Add(new Tuple<string, double>(item.Key,(double)item.Value/(double)ls.Count));
+            }
         }
 
         public Query(string s, Stopword sw)
@@ -55,14 +65,21 @@ namespace IF_IDF
             const string regex = @"[A-Za-z\-]+";
             IStemmer stemmer = new EnglishStemmer();
             var valueEnumerable = Regex.Matches(s, regex);
+            IEnumerable<string> Lst = null;
             try
             {
                 Lst = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().Except(sw.Lst.ToArray()).OrderBy(a => a);
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
             }
-            catch(Exception )
+            catch (Exception)
             {
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
+            }
+            var ls = Lst.Distinct().ToList();
+            foreach (var item in ls)
+            {
+                var l = Lst.Select(a => a == item).Count();
+                Lstq.Add(new Tuple<string, double>(item, (double)l / ls.Count));
             }
         }
 
