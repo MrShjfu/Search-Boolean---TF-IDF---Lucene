@@ -20,6 +20,7 @@ namespace IF_IDF
             DTable = new DataTable();
             openFileDialog1.Multiselect = true;
             dataGridView1.Enabled = false;
+            Stopword = null;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -67,24 +68,13 @@ namespace IF_IDF
         public BoardBoolean bbl;
         private void button2_Click(object sender, EventArgs e)
         {
-            bbl = new BoardBoolean(ListDocuments);
-            bbl.CreateBoardVobu();
-            var lstBoard = bbl.Vobu;
-            foreach (var tuple in lstBoard)
-            {
-                Console.WriteLine(tuple.Item1 + @"	" + tuple.Item2 + @"	" + tuple.Item3);
-            }
+            QueryAON qr = new QueryAON(txtSearch.Text,Stopword);
+            bbl.CreateBoardBoolean();
+            SearchAON sr = new SearchAON(qr,bbl.GetBoard());
+            sr.resultFile();
 
+            
 
-            bbl.CreateBoardDictionary();
-            foreach (var tuple in bbl.GetDictionList())
-            {
-                Console.WriteLine(tuple.Key + @"	" + tuple.Value.Item1 + @"	" + tuple.Value.Item2);
-                foreach (var variable in tuple.Value.Item4)
-                {
-                    Console.WriteLine(@"	" + variable.Item1 + @"	" + variable.Item2);
-                }
-            }
         }
 
 
@@ -173,14 +163,19 @@ namespace IF_IDF
         {
             var query = new Query(txtSearch.Text, Stopword);
             var searchQuery = new SearchQuery(query,bbl);
+
             var result = searchQuery.FileResult();
+            double number;
             var dt = new DataTable();
             dt.Columns.Add("Query ID");
             dt.Columns.Add("File Result");
             dt.Columns.Add("CoSin");
             foreach (var item in result)
             {
-                dt.Rows.Add(txtSearch.Text, item.Key, item.Value);
+                if (item.Value>=0.70)
+                {
+                    dt.Rows.Add(txtSearch.Text, item.Key, item.Value);
+                }
             }
             dataGridView2.DataSource = dt;
         }
@@ -211,7 +206,7 @@ namespace IF_IDF
                         var result = search.FileResult();
                         foreach (var item in result)
                         {
-                            dt.Rows.Add(query.IdQuery, item.Key,item.Value);
+                            dt.Rows.Add(query.IdQuery, item.Key.ToString(),item.Value.ToString(CultureInfo.InvariantCulture));
                         }
                     }
                 }

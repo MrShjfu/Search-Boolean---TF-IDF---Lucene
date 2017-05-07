@@ -11,6 +11,8 @@ namespace IF_IDF
         public string Title;
         public string Content;
         public IEnumerable<string> ListWorld;
+        public int count;
+
         public static string[] StopWords = {};
         public string Rank;
 
@@ -24,7 +26,10 @@ namespace IF_IDF
             IStemmer stemmer = new EnglishStemmer();
             const string regex = @"[A-Za-z\-]+";
             var valueEnumerable = Regex.Matches(content, regex);
-            ListWorld = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().Except(StopWords).OrderBy(a => a);
+            var lt = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList();
+            count = lt.Count;
+            ListWorld = valueEnumerable.Cast<Match>().Select(match => match.Value).
+                ToList().Except(StopWords).OrderBy(a => a).ToList();
             ListWorld = ListWorld.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
         }
 

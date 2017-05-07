@@ -69,7 +69,7 @@ namespace IF_IDF
             var lst = new List<string> { word };
             for (var i = 1; i < length; i++)
             {
-                lst.Add(i == index ? "1" : "");
+                lst.Add(i == index ? "1" : "0");
             }
             return lst;
         }
@@ -126,11 +126,12 @@ namespace IF_IDF
             for (var i = 0; i < Vobu.Count; i++)
             {
                 var lst = new List<Tuple<string, int,float>>();
-                lst = (from p in Vobu where p.Item1 == Vobu[i].Item1 select (new Tuple<string, int, float>(p.Item2.Title, p.Item3,float.Parse(p.Item3.ToString())/float.Parse(p.Item2.ListWorld.Count().ToString()))))
+                lst = (from p in Vobu where p.Item1 == Vobu[i].Item1 select (new Tuple<string, int, float>(p.Item2.Title, p.Item3,float.Parse(p.Item3.ToString())/float.Parse(p.Item2.count.ToString()))))
                     .ToList();
                 var count = lst.Sum(p => p.Item2);
                 var list = new List<Tuple<string, int, float, double>>();
-                double idf = Math.Log10((float)_listpPages.Count / (float)count);
+                // tinh idf = log_10(tong so page/ Tong page chua tu)
+                var idf =1.0+ Math.Log((float)_listpPages.Count / (float)count);
                 foreach (var item in lst)
                 {
                     var value = new Tuple<string, int, float, double>(item.Item1,item.Item2,item.Item3,idf * item.Item3);

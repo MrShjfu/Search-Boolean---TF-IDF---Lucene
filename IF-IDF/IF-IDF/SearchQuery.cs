@@ -35,7 +35,7 @@ namespace IF_IDF
                 if (!dic.ContainsKey(item.Item1)) continue;
                 Item = dic.First(a => a.Key == item.Item1).Value;
                 //tu, tf*idf
-                lstQuery.Add(new Tuple<string,double>(item.Item1, item.Item2* dic[item.Item1].Item3));// tu , idf
+                lstQuery.Add(new Tuple<string,double>(item.Item1, item.Item2* dic[item.Item1].Item3));// tu ,tf
                 listItem.Add(item.Item1, Item);
             }
 
@@ -81,27 +81,24 @@ namespace IF_IDF
             var docTFIDF = new Dictionary<string, double>();
             foreach (var item in dicFile)
             {
-                var DoDaiTaiLieu = item.Value.Sum(a => Math.Sqrt(Math.Pow(a.Item2, 2)));
+                var DoDaiTaiLieu = Math.Sqrt(item.Value.Sum(a => Math.Pow(a.Item2, 2)));
                 var file = item.Value.ToList();
                 double d = 0.0;
                 double x = 0.0;
                 foreach (var subitem in item.Value)
                 {
-                    d += Math.Pow(lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2,2);
+                    //d += Math.Pow(lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2,2);
                     x += lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2* subitem.Item2;
                 }
-                var DoDaiQuery = Math.Sqrt(d);
-                docTFIDF.Add(item.Key,x/(DoDaiQuery*DoDaiQuery));
+                double DoDaiQuery = Math.Sqrt(lstQuery.Sum(e =>Math.Pow(e.Item2,2)));
+                float c = (float)((float)x / ((float)DoDaiTaiLieu * (float)DoDaiQuery));
+                docTFIDF.Add(item.Key,(double)c);
             }   
             var listFileSortByFre = docTFIDF.ToList();
             return listFileSortByFre;
 
             //tai lieu,tu,tf*idf
             //new Dictionary<string,List<Tuple<string,double>>>();
-            foreach (var item in docTFIDF)
-            {
-                
-            }
             //var listFileSortByFre = dicFile.ToList().OrderByDescending(a => a.Value.Item2).ThenBy(a => a.Value.Item1).Where(a => a.Value.Item1 >= 3);
             //return listFileSortByFre;
         }

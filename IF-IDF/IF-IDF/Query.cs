@@ -66,20 +66,22 @@ namespace IF_IDF
             IStemmer stemmer = new EnglishStemmer();
             var valueEnumerable = Regex.Matches(s, regex);
             IEnumerable<string> Lst = null;
-            try
+            Lstq = new List<Tuple<string, double>>();
+            if (sw!=null)
             {
                 Lst = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().Except(sw.Lst.ToArray()).OrderBy(a => a);
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
             }
-            catch (Exception)
+            else
             {
+                Lst = valueEnumerable.Cast<Match>().Select(match => match.Value).OrderBy(a => a).ToList();
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
             }
             var ls = Lst.Distinct().ToList();
             foreach (var item in ls)
             {
-                var l = Lst.Select(a => a == item).Count();
-                Lstq.Add(new Tuple<string, double>(item, (double)l / ls.Count));
+                var l = Lst.Count(a=>a==item);
+                Lstq.Add(new Tuple<string, double>(item, (double)l / Lst.ToList().Count));
             }
         }
 
