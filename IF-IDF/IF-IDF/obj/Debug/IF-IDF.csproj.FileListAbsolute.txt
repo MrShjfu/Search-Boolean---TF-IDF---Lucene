@@ -17,3 +17,4 @@ D:\IF-IDF\IF-IDF\bin\Debug\Lucene.Net.pdb
 D:\IF-IDF\IF-IDF\bin\Debug\Lucene.Net.xml
 D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.FormLucene.resources
 D:\IF-IDF\IF-IDF\obj\Debug\IF_IDF.Lucene.resources
+D:\IF-IDF\IF-IDF\bin\Debug\MathParser.org-mXparser.Net40.dll

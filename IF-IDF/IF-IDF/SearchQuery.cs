@@ -83,8 +83,8 @@ namespace IF_IDF
             {
                 var DoDaiTaiLieu = Math.Sqrt(item.Value.Sum(a => Math.Pow(a.Item2, 2)));
                 var file = item.Value.ToList();
-                double d = 0.0;
-                double x = 0.0;
+                var d = 0.0;
+                var x = 0.0;
                 foreach (var subitem in item.Value)
                 {
                     //d += Math.Pow(lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2,2);

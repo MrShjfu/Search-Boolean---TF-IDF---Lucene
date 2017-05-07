@@ -11,6 +11,8 @@ namespace IF_IDF
         public string s;
         public List<Tuple<string,int>> lst;
         public List<string> Lst;
+        public List<string> Lst1;
+
 
         public QueryAON(string s, Stopword sw)
         {
@@ -19,6 +21,7 @@ namespace IF_IDF
             IStemmer stemmer = new EnglishStemmer();
             var valueEnumerable = Regex.Matches(s, regex);
             Lst = new List<string>();
+            Lst1=new List<string>();
             var Lstq = new List<Tuple<string, double>>();
             if (sw != null)
             {
@@ -38,6 +41,7 @@ namespace IF_IDF
                 {
                     if (Lst[j] == "and" || Lst[j] == "or" || Lst[j] == "not" || Lst[j] == "(" || Lst[j] == ")") continue;
                     lst.Add(new Tuple<string, int>(Lst[j], i));
+                    Lst1.Add(Lst[j]);
                     Lst[j] = i.ToString();
                     i++;
                 }
