@@ -48,6 +48,10 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
+            this.txtCS = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.openFileDialog4 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -55,7 +59,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(422, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(193, 43);
             this.button1.TabIndex = 0;
@@ -66,7 +70,7 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(12, 112);
+            this.button2.Location = new System.Drawing.Point(211, 162);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(199, 43);
             this.button2.TabIndex = 1;
@@ -77,10 +81,10 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 165);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 211);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(545, 507);
+            this.dataGridView1.Size = new System.Drawing.Size(545, 461);
             this.dataGridView1.TabIndex = 2;
             // 
             // openFileDialog1
@@ -123,7 +127,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(12, 61);
+            this.button5.Location = new System.Drawing.Point(12, 114);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(193, 45);
             this.button5.TabIndex = 6;
@@ -152,10 +156,10 @@
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(563, 165);
+            this.dataGridView2.Location = new System.Drawing.Point(563, 211);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(535, 507);
+            this.dataGridView2.Size = new System.Drawing.Size(535, 461);
             this.dataGridView2.TabIndex = 9;
             // 
             // button7
@@ -172,7 +176,7 @@
             // btnStopword
             // 
             this.btnStopword.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStopword.Location = new System.Drawing.Point(416, 12);
+            this.btnStopword.Location = new System.Drawing.Point(6, 12);
             this.btnStopword.Name = "btnStopword";
             this.btnStopword.Size = new System.Drawing.Size(199, 43);
             this.btnStopword.TabIndex = 11;
@@ -188,7 +192,7 @@
             // 
             this.lbTxt.AutoSize = true;
             this.lbTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbTxt.Location = new System.Drawing.Point(621, 20);
+            this.lbTxt.Location = new System.Drawing.Point(222, 20);
             this.lbTxt.Name = "lbTxt";
             this.lbTxt.Size = new System.Drawing.Size(170, 25);
             this.lbTxt.TabIndex = 12;
@@ -197,9 +201,9 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(211, 12);
+            this.button8.Location = new System.Drawing.Point(621, 12);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(199, 43);
+            this.button8.Size = new System.Drawing.Size(175, 43);
             this.button8.TabIndex = 13;
             this.button8.Text = "AutoSearch";
             this.button8.UseVisualStyleBackColor = true;
@@ -230,11 +234,49 @@
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
+            // txtCS
+            // 
+            this.txtCS.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCS.Location = new System.Drawing.Point(806, 161);
+            this.txtCS.Multiline = true;
+            this.txtCS.Name = "txtCS";
+            this.txtCS.Size = new System.Drawing.Size(193, 48);
+            this.txtCS.TabIndex = 17;
+            this.txtCS.Text = "0.7";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(563, 174);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(237, 25);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Giá Trị CoSin muốn trả về";
+            // 
+            // button11
+            // 
+            this.button11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button11.Location = new System.Drawing.Point(6, 63);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(199, 43);
+            this.button11.TabIndex = 19;
+            this.button11.Text = "word Compound";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // openFileDialog4
+            // 
+            this.openFileDialog4.FileName = "openFileDialog4";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1110, 700);
+            this.Controls.Add(this.button11);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.txtCS);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
@@ -283,6 +325,10 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.TextBox txtCS;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.OpenFileDialog openFileDialog4;
     }
 }
 

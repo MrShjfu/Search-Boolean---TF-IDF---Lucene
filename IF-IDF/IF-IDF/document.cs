@@ -17,15 +17,20 @@ namespace IF_IDF
         public string Rank;
 
 
-        public document(string title, string content)
+        public document(string title, string content, string rg, int c)
         {
+            
             var line = title.Split(new[] { @"\", "." }, StringSplitOptions.None);
             Title = line[line.Length - 2];
             Content = content;
             StopWords=new []{""};
             IStemmer stemmer = new EnglishStemmer();
-            const string regex = @"[A-Za-z\-]+";
-            var valueEnumerable = Regex.Matches(content, regex);
+            var regex = "";
+            if (rg == null)
+                regex = @"[A-Za-z\-]+";
+            else
+                regex = rg;
+            var valueEnumerable = Regex.Matches(content.ToLower(), regex);
             var lt = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList();
             count = lt.Count;
             ListWorld = valueEnumerable.Cast<Match>().Select(match => match.Value).
@@ -33,16 +38,23 @@ namespace IF_IDF
             ListWorld = ListWorld.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
         }
 
-        public document(string title, string content,Stopword st)
+        public document(string title, string content,Stopword st,string rg)
         {
             var line = title.Split(new[] { @"\", "." }, StringSplitOptions.None);
             Title = line[line.Length - 2];
-            Content = content;
+            Content = content.ToLower();
             IStemmer stemmer = new EnglishStemmer();
-            const string regex = @"[A-Za-z\-]+";
+            var regex = "";
+            if (rg == null)
+                regex = @"[A-Za-z\-]+";
+            else
+                regex = rg;
             var valueEnumerable = Regex.Matches(content, regex);
+            var lt = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList();
+            count = lt.Count;
             StopWords = st.Lst.ToArray();
-            ListWorld = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().Except(StopWords).OrderBy(a => a);
+            ListWorld = valueEnumerable.Cast<Match>().Select(match => match.Value).
+                ToList().ConvertAll(a=>a.ToLower()).Except(StopWords).OrderBy(a => a);
             ListWorld = ListWorld.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
         }
 

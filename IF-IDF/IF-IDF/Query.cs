@@ -29,15 +29,18 @@ namespace IF_IDF
             IdQuery = b[0];
             Title = b[1];
         }
-        public Query(string s,Stopword sw, int e)
+        public Query(string s,Stopword sw, int e,string rg)
         {
             Lstq = new List<Tuple<string, double>>();
             var b = s.Split(new string[] { "\t", "\t" }, StringSplitOptions.None);
             if (b.Length != 2) return;
             IdQuery = b[0];
             Title = b[1];
-
-            const string regex = @"[A-Za-z\-]+";
+            var regex = "";
+            if (rg == null)
+                regex = @"[A-Za-z\-]+";
+            else
+                regex = rg;
             IStemmer stemmer = new EnglishStemmer();
             var valueEnumerable = Regex.Matches(Title = b[1], regex);
             IEnumerable<string> Lst=null;
@@ -48,6 +51,7 @@ namespace IF_IDF
             }
             catch (Exception)
             {
+                Lst = valueEnumerable.Cast<Match>().Select(match => match.Value).ToList().OrderBy(a => a);
                 Lst = Lst.ToList().ConvertAll(d => stemmer.Stem(d.ToLower()));
             }
             Dictionary<string, int> counts = Lst.GroupBy(x => x)
@@ -60,10 +64,15 @@ namespace IF_IDF
             }
         }
 
-        public Query(string s, Stopword sw)
+        public Query(string s, Stopword sw,string rg)
         {
-            const string regex = @"[A-Za-z\-]+";
+            var regex = "";
+            if (rg == null)
+                regex = @"[A-Za-z\-]+";
+            else
+                regex = rg;
             IStemmer stemmer = new EnglishStemmer();
+            s=s.ToLower();
             var valueEnumerable = Regex.Matches(s, regex);
             IEnumerable<string> Lst = null;
             Lstq = new List<Tuple<string, double>>();

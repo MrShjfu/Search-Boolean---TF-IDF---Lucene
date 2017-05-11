@@ -19,7 +19,6 @@ namespace IF_IDF
             InitializeComponent();
             DTable = new DataTable();
             openFileDialog1.Multiselect = true;
-            dataGridView1.Enabled = false;
             Stopword = null;
         }
 
@@ -43,14 +42,14 @@ namespace IF_IDF
                     {
                         case false:
                         {
-                            var document = new document(file, content);
+                            var document = new document(file, content,Regex,1);
                             ListDocuments.Add(document);
                             dt.Rows.Add(document.Title, document.Content);
                         }
                             break;
                         case true:
                         {
-                            var document = new document(file, content,Stopword);
+                            var document = new document(file, content,Stopword, Regex);
                             ListDocuments.Add(document);
                             dt.Rows.Add(document.Title, document.Content);
                         }
@@ -161,7 +160,7 @@ namespace IF_IDF
 
         private void button6_Click(object sender, EventArgs e)
         {
-            var query = new Query(txtSearch.Text, Stopword);
+            var query = new Query(txtSearch.Text, Stopword,Regex);
             var searchQuery = new SearchQuery(query,bbl);
 
             var result = searchQuery.FileResult();
@@ -201,12 +200,23 @@ namespace IF_IDF
                     foreach (var varString in line)
                     {
                         if (varString == "") break;
-                        var query = new Query(varString.ToString(), Stopword,1);
+                        var query = new Query(varString.ToString(), Stopword,1, Regex);
                         var search = new SearchQuery(query,bbl);
                         var result = search.FileResult();
-                        foreach (var item in result)
+                        var blabla = result.OrderByDescending(x=>x.Value);
+                        var i = 1;
+                        foreach (var item in blabla)
                         {
-                            dt.Rows.Add(query.IdQuery, item.Key.ToString(),item.Value.ToString(CultureInfo.InvariantCulture));
+                            if (i <= 40)
+                            {
+                                i++;
+                                dt.Rows.Add(query.IdQuery, item.Key.ToString(), item.Value.ToString(CultureInfo.InvariantCulture));
+                            }
+                            else
+                            {
+                                break;
+                            }
+
                         }
                     }
                 }
@@ -247,6 +257,27 @@ namespace IF_IDF
         {
             var lucen = new Lucene();
             lucen.Show();
+        }
+        List<string> wordCompound = new List<string>();
+        public string Regex;
+        private void button11_Click(object sender, EventArgs e)
+        {
+            Regex = "";
+            var dr = openFileDialog4.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                foreach (var file in openFileDialog4.FileNames)
+                {
+                    string content;
+                    using (var reader = new StreamReader(file, Encoding.UTF8))
+                    {
+                        content = reader.ReadToEnd();
+                    }
+                    var line = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                    wordCompound = line.ToList().ConvertAll(a=>a.ToLower());
+                }
+                Regex = @"((^|)(" + string.Join("|", wordCompound) + @"|[A-Za-z\-]+))+";
+            }
         }
     }
 }

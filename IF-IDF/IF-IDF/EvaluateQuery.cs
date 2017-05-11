@@ -163,10 +163,10 @@ namespace IF_IDF
 
             double recall = listTuple.Sum(a => a.Item5 / listTuple.Count);
             double pre = listTuple.Sum(a => a.Item6 / listTuple.Count);
-
+            double f = 2 * recall * pre / (pre + recall);
             txt1.Text = @"Recall trung bình: " + recall.ToString();
             txt2.Text = @"Pre trung bình: " + pre.ToString();
-
+            txtFM.Text = @"F-Measure: " + f.ToString();
         }
     }
 }

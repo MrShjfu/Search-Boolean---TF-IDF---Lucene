@@ -58,43 +58,18 @@ namespace IF_IDF
                     dicFile.Add(item.Item1 ,new List<Tuple<string, double>>(new Tuple<string, double>[] {tup}));
                 }
             }
-
-            // tài liệu, từ, tần số trong tài liệu đó
-            //var lstFile = (from item in listItem from subItem in item.Value.Item4 select new Tuple<string, string, int>(subItem.Item1, item.Key, subItem.Item2)).OrderBy(a => a.Item1).ToList();
-            //var dicFile = new Dictionary<string, Tuple<int, int>>();
-            //foreach (var item in lstFile)
-            //{
-            //    if (dicFile.ContainsKey(item.Item1) == true)
-            //    {
-            //        var world = dicFile[item.Item1].Item1 + 1;// so tu 
-            //        var fre = dicFile[item.Item1].Item2 + item.Item3;// tan so
-            //        dicFile[item.Item1] = new Tuple<int, int>(world, fre);
-            //    }
-            //    else
-            //    {
-            //        dicFile.Add(item.Item1, new Tuple<int, int>(1, item.Item3));
-            //    }
-            //}
-
-            //tinh tf*idf cua tai lieu
-            //tai lieu, cosin
-            var docTFIDF = new Dictionary<string, double>();
+            var docTfidf = new Dictionary<string, double>();
             foreach (var item in dicFile)
             {
-                var DoDaiTaiLieu = Math.Sqrt(item.Value.Sum(a => Math.Pow(a.Item2, 2)));
+                var doDaiTaiLieu = Math.Sqrt(item.Value.Sum(a => Math.Pow(a.Item2, 2)));
                 var file = item.Value.ToList();
                 var d = 0.0;
-                var x = 0.0;
-                foreach (var subitem in item.Value)
-                {
-                    //d += Math.Pow(lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2,2);
-                    x += lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2* subitem.Item2;
-                }
-                double DoDaiQuery = Math.Sqrt(lstQuery.Sum(e =>Math.Pow(e.Item2,2)));
-                float c = (float)((float)x / ((float)DoDaiTaiLieu * (float)DoDaiQuery));
-                docTFIDF.Add(item.Key,(double)c);
+                var x = item.Value.Sum(subitem => lstQuery.FirstOrDefault(a => a.Item1 == subitem.Item1).Item2 * subitem.Item2);
+                var doDaiQuery = Math.Sqrt(lstQuery.Sum(e =>Math.Pow(e.Item2,2)));
+                var c = (float)((float)x / ((float)doDaiTaiLieu * (float)doDaiQuery));
+                docTfidf.Add(item.Key,(double)c);
             }   
-            var listFileSortByFre = docTFIDF.ToList();
+            var listFileSortByFre = docTfidf.ToList();
             return listFileSortByFre;
 
             //tai lieu,tu,tf*idf

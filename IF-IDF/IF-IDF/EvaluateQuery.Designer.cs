@@ -38,6 +38,7 @@
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.txt1 = new System.Windows.Forms.TextBox();
             this.txt2 = new System.Windows.Forms.TextBox();
+            this.txtFM = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -126,11 +127,21 @@
             this.txt2.Size = new System.Drawing.Size(406, 30);
             this.txt2.TabIndex = 7;
             // 
+            // txtFM
+            // 
+            this.txtFM.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFM.Location = new System.Drawing.Point(557, 657);
+            this.txtFM.Name = "txtFM";
+            this.txtFM.ReadOnly = true;
+            this.txtFM.Size = new System.Drawing.Size(406, 30);
+            this.txtFM.TabIndex = 8;
+            // 
             // EvaluateQuery
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1093, 740);
+            this.Controls.Add(this.txtFM);
             this.Controls.Add(this.txt2);
             this.Controls.Add(this.txt1);
             this.Controls.Add(this.dataGridView3);
@@ -161,5 +172,6 @@
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.TextBox txt1;
         private System.Windows.Forms.TextBox txt2;
+        private System.Windows.Forms.TextBox txtFM;
     }
 }
