@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace IF_IDF
             InitializeComponent();
             DTable = new DataTable();
             openFileDialog1.Multiselect = true;
+            openFileDialog5.Multiselect = false;
+
             Stopword = null;
         }
 
@@ -278,6 +281,75 @@ namespace IF_IDF
                 }
                 Regex = @"((^|)(" + string.Join("|", wordCompound) + @"|[A-Za-z\-]+))+";
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Title");
+            dt.Columns.Add("Content");
+            ListDocuments = new List<document>();
+            var dr = openFileDialog5.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                foreach (var file in openFileDialog5.FileNames)
+                {
+                    string content;
+                    using (var reader = new StreamReader(file, Encoding.UTF8))
+                    {
+                        content = reader.ReadToEnd();
+                    }
+                    var line = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    foreach (var varString in line)
+                    {
+                        var pythonFile = @"D:/me/crawler_content.py";
+                        
+                        var parameters = varString.ToString();
+                        //var fullParameters = "\"" + HttpContext.Server.MapPath("~").Replace(@"\\", @"\") + @"Content\" +
+                        //                     "image.jpg\"" + @" " + parameters;
+                        var command = $"{pythonFile} {parameters}";
+                        var start = new ProcessStartInfo
+                        {
+                            // FileName địa chỉ file chứa file python.exe (Python2.7)
+                            FileName = @"C:/Python27/python.exe",
+                            Arguments = command,    
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true
+                        };
+                        using (var process = Process.Start(start))
+                        {
+                            using (var reader = process.StandardOutput)
+                            {
+                                var result = reader.ReadToEnd();
+                                switch (_sword)
+                                {
+                                    case false:
+                                    {
+                                        var document = new document(varString, result, Regex, 1,1);
+                                        ListDocuments.Add(document);
+                                        dt.Rows.Add(document.Title, document.Content);
+                                    }
+                                        break;
+                                    case true:
+                                    {
+                                        var document = new document(varString, result, Stopword, Regex,1);
+                                        ListDocuments.Add(document);
+                                        dt.Rows.Add(document.Title, document.Content);
+                                    }
+                                        break;
+                                }
+                            }
+                        }
+
+                        
+                    }
+
+                }
+            }
+
+            dt.AcceptChanges();
+            dataGridView1.DataSource = dt;
+            DTable = dt;
         }
     }
 }
