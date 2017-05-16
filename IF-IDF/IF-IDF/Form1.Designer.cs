@@ -52,7 +52,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button11 = new System.Windows.Forms.Button();
             this.openFileDialog4 = new System.Windows.Forms.OpenFileDialog();
-            this.openFileDialog5 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
@@ -134,7 +133,6 @@
             this.button5.TabIndex = 6;
             this.button5.Text = "getFileCrawler";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
@@ -271,10 +269,6 @@
             // 
             this.openFileDialog4.FileName = "openFileDialog4";
             // 
-            // openFileDialog5
-            // 
-            this.openFileDialog5.FileName = "openFileDialog5";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -335,7 +329,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.OpenFileDialog openFileDialog4;
-        private System.Windows.Forms.OpenFileDialog openFileDialog5;
     }
 }
 
