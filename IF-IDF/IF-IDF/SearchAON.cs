@@ -22,15 +22,19 @@ namespace IF_IDF
 
 
 
-        public List<Tuple<string, string>> resultFile()
+        public List<string> resultFile()
         {
             var db = _boolean.ToList();
             var rb = new Dictionary<string, List<string>>();
             var listPage = db[0].ToList();
             listPage.RemoveAt(0);
             listPage.Reverse();
+            int k = 0;
             foreach (var list in db)
+            {
+                if (list[0] == "") continue;
                 rb.Add(list[0], list.GetRange(1, list.Count - 1).ToList());
+            }
             var word = new Dictionary<string, Tuple<int, string>>();
 
             var qr = Query.lst;
@@ -38,7 +42,7 @@ namespace IF_IDF
             {
                 if (rb.ContainsKey(item.Item1))
                 {
-                    var str = string.Join("", rb[item.Item1].GetRange(1, rb[item.Item1].Count - 1).ToList());
+                    var str = string.Join("", rb[item.Item1].GetRange(0, rb[item.Item1].Count).ToList());
                     word.Add(item.Item1, new Tuple<int, string>(item.Item2, str));
                 }
                 else
@@ -94,7 +98,7 @@ namespace IF_IDF
             }
             int hq = 0;
             var result = "";
-            for (int i = 0; i < listPage.Count-1; i++)
+            for (int i = 0; i < listPage.Count; i++)
             {
                 var v = opera;
                 var stringresul = "";
@@ -106,56 +110,17 @@ namespace IF_IDF
                     }
                     else
                     {
-                        if (i>argu[hq].Length||argu[hq]=="0")
+                        if (argu[hq].Length==1)
                         {
                             stringresul += "0";
-                        }
-                        else stringresul += argu[hq][i].ToString();
+                        }else
+                        stringresul += argu[hq][i].ToString();
                     }
                 }
                 Expression ex = new Expression(stringresul);
                 string h = ex.calculate().ToString();
                 result += Convert.ToString(int.Parse(h), 2).ToString();
             }
-            //foreach (var s in Lst)
-            //{
-            //    if (s == "and")
-            //        result1 +=" @& ";
-            //    else if (s == "or")
-            //        result1 += " @| ";
-            //    else if (s == "not")
-            //        result1 += " @~";
-            //    else if (s==null)
-            //        result1 += "0";
-            //    else if (s == ")")
-            //        result1 += " )";
-            //    else if (s == "(")
-            //    {
-            //        result1 += "( ";
-            //    }
-            //    else
-            //    result1+=Convert.ToUInt64(s, 2).ToString();
-            //}
-
-            //var result = result1.ToString();
-            //Expression ex = new Expression(result);
-            //string h = ex.calculate().ToString();
-            //var dh = Convert.ToString(int.Parse(h), 2).ToList();
-            //var sub = listPage.Count - dh.Count;
-            //for (int i = 0; i < sub; i++)
-            //{
-            //    dh.Insert(0,'0');
-            //}
-            //var resultFile = new List<string>();
-            //for (int i = 0; i < listPage.Count; i++)
-            //{
-            //    if (dh[i] == '1')
-            //    {
-            //        resultFile.Add(listPage[i]);
-            //    }
-            //}
-            ////tu, string
-            //return null;
 
             var sub = listPage.Count - result.Length;
             for (int i = 0; i < sub; i++)
@@ -163,6 +128,7 @@ namespace IF_IDF
                 result.Insert(0, "0");
             }
             var resultFile = new List<string>();
+            listPage.Reverse();
             for (int i = 0; i < listPage.Count; i++)
             {
                 if (result[i].ToString() == "1".ToString())
@@ -170,7 +136,12 @@ namespace IF_IDF
                     resultFile.Add(listPage[i]);
                 }
             }
-            return null;
+            if (resultFile == null)
+            {
+                return null;
+            }
+            else
+                return resultFile;
         }
     }
 }

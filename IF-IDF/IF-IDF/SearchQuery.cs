@@ -38,12 +38,10 @@ namespace IF_IDF
                 lstQuery.Add(new Tuple<string,double>(item.Item1, item.Item2* dic[item.Item1].Item3));// tu ,tf
                 listItem.Add(item.Item1, Item);
             }
-
-
-
             //tai lieu, tu, tf*idf
-            var lstFile = (from item in listItem from subitem in item.Value.Item4 select new Tuple<string, string, double>(subitem.Item1, item.Key, subitem.Item4)).OrderBy(a=>a.Item1).ToList();
-
+            var lstFile = (from item in listItem from subitem in item.Value.Item4
+                           select new Tuple<string, string, double>(subitem.Item1, item.Key, subitem.Item4))
+                           .OrderBy(a=>a.Item1).ToList();
             // gop lai 
             var dicFile  = new Dictionary<string,List<Tuple<string,double>>>();
             foreach (var item in lstFile)

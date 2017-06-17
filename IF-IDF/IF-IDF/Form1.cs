@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -14,11 +15,15 @@ namespace IF_IDF
         public DataTable DTable;
         public List<document> ListDocuments = new List<document>();
         public Stopword Stopword;
+        public BoardBoolean bbl;
+
         public Form1()
         {
             InitializeComponent();
             DTable = new DataTable();
             openFileDialog1.Multiselect = true;
+            openFileDialog5.Multiselect = false;
+
             Stopword = null;
         }
 
@@ -58,30 +63,37 @@ namespace IF_IDF
 
                 }
             }
-
             dt.AcceptChanges();
             dataGridView1.DataSource = dt;
             DTable = dt;
+            bbl = new BoardBoolean(ListDocuments);
+            bbl.CreateBoardBoolean();
+            bbl.CreateBoardVobu();
+            bbl.CreateBoardDictionary();
         }
 
-        public BoardBoolean bbl;
         private void button2_Click(object sender, EventArgs e)
         {
             QueryAON qr = new QueryAON(txtSearch.Text,Stopword);
             bbl.CreateBoardBoolean();
             SearchAON sr = new SearchAON(qr,bbl.GetBoard());
-            sr.resultFile();
-
-            
-
+            var dt = new DataTable();
+            var lst = sr.resultFile();
+            dt.Columns.Add("Query ID");
+            dt.Columns.Add("File Result");
+            foreach (string t in lst)
+            {
+                dt.Rows.Add(txtSearch.Text, t);
+            }
+            dataGridView2.DataSource = dt;
         }
 
 
         //Gom từ khóa có cùng chỉ số tài liệu và thêm tần số
         private void btnIndexing_Click(object sender, EventArgs e)
         {
-            bbl = new BoardBoolean(ListDocuments);
-            bbl.CreateBoardVobu();
+            //bbl = new BoardBoolean(ListDocuments);
+            //bbl.CreateBoardVobu();
             var lstBoard = bbl.Vobu;
             var dt = new DataTable();
             dt.Columns.Add("Từ Khóa");
@@ -94,9 +106,9 @@ namespace IF_IDF
         }
         private void button3_Click(object sender, EventArgs e)
         {
-            bbl = new BoardBoolean(ListDocuments);
-            bbl.CreateBoardVobu();
-            bbl.CreateBoardDictionary();
+            //bbl = new BoardBoolean(ListDocuments);
+            //bbl.CreateBoardVobu();
+            //bbl.CreateBoardDictionary();
 
             var dt = new DataTable();
             dt.Columns.Add("Từ Khóa");
@@ -124,6 +136,8 @@ namespace IF_IDF
         }
 
         private bool _sword;
+
+        //Get StopWord
         private void button8_Click(object sender, EventArgs e)
         {
             var dr = openFileDialog2.ShowDialog();
@@ -164,7 +178,6 @@ namespace IF_IDF
             var searchQuery = new SearchQuery(query,bbl);
 
             var result = searchQuery.FileResult();
-            double number;
             var dt = new DataTable();
             dt.Columns.Add("Query ID");
             dt.Columns.Add("File Result");
@@ -278,6 +291,75 @@ namespace IF_IDF
                 }
                 Regex = @"((^|)(" + string.Join("|", wordCompound) + @"|[A-Za-z\-]+))+";
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Title");
+            dt.Columns.Add("Content");
+            ListDocuments = new List<document>();
+            var dr = openFileDialog5.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                foreach (var file in openFileDialog5.FileNames)
+                {
+                    string content;
+                    using (var reader = new StreamReader(file, Encoding.UTF8))
+                    {
+                        content = reader.ReadToEnd();
+                    }
+                    var line = content.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                    foreach (var varString in line)
+                    {
+                        var pythonFile = @"D:/me/crawler_content.py";
+                        
+                        var parameters = varString.ToString();
+                        //var fullParameters = "\"" + HttpContext.Server.MapPath("~").Replace(@"\\", @"\") + @"Content\" +
+                        //                     "image.jpg\"" + @" " + parameters;
+                        var command = $"{pythonFile} {parameters}";
+                        var start = new ProcessStartInfo
+                        {
+                            // FileName địa chỉ file chứa file python.exe (Python2.7)
+                            FileName = @"C:/Python27/python.exe",
+                            Arguments = command,    
+                            UseShellExecute = false,
+                            RedirectStandardOutput = true
+                        };
+                        using (var process = Process.Start(start))
+                        {
+                            using (var reader = process.StandardOutput)
+                            {
+                                var result = reader.ReadToEnd();
+                                switch (_sword)
+                                {
+                                    case false:
+                                    {
+                                        var document = new document(varString, result, Regex, 1,1);
+                                        ListDocuments.Add(document);
+                                        dt.Rows.Add(document.Title, document.Content);
+                                    }
+                                        break;
+                                    case true:
+                                    {
+                                        var document = new document(varString, result, Stopword, Regex,1);
+                                        ListDocuments.Add(document);
+                                        dt.Rows.Add(document.Title, document.Content);
+                                    }
+                                        break;
+                                }
+                            }
+                        }
+
+                        
+                    }
+
+                }
+            }
+
+            dt.AcceptChanges();
+            dataGridView1.DataSource = dt;
+            DTable = dt;
         }
     }
 }

@@ -1,0 +1,3 @@
+tap compound w
+và tap stopword
+nen su dung hai tap nay cho he thong

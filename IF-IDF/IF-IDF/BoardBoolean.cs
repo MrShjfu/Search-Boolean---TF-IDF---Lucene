@@ -7,6 +7,7 @@ namespace IF_IDF
 {
     public class BoardBoolean
     {
+
         private List<List<string>> _boardBolean;
         private readonly List<document> _listpPages;
         private readonly List<string> _list = new List<string>();
@@ -97,7 +98,9 @@ namespace IF_IDF
 
         public  void CreateBoardVobu()
         {
-            var vobu = (from variable in _listpPages from iteam in variable.ListWorld select new Tuple<string, document, int>(iteam, variable, 1)).ToList();
+            var vobu = (from variable in _listpPages
+                        from iteam in variable.ListWorld
+                        select new Tuple<string, document, int>(iteam, variable, 1)).ToList();
             Vobu = SortVoBu(vobu.ToList());
             CreateBoardVoBuByFrequency();
         }
@@ -126,7 +129,8 @@ namespace IF_IDF
             for (var i = 0; i < Vobu.Count; i++)
             {
                 var lst = new List<Tuple<string, int,float>>();
-                lst = (from p in Vobu where p.Item1 == Vobu[i].Item1 select (new Tuple<string, int, float>(p.Item2.Title, p.Item3,float.Parse(p.Item3.ToString())/float.Parse(p.Item2.count.ToString()))))
+                lst = (from p in Vobu where p.Item1 == Vobu[i].Item1 select
+                       (new Tuple<string, int, float>(p.Item2.Title, p.Item3,float.Parse(p.Item3.ToString())/float.Parse(p.Item2.count.ToString()))))
                     .ToList();
                 var count = lst.Sum(p => p.Item2);
                 var list = new List<Tuple<string, int, float, double>>();
